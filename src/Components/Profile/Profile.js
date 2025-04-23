@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('https://stagebackend.onrender.com/api/users/me');
+        const response = await axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true });
         const userData = response.data;
         // Converter a data de nascimento para o formato yyyy-MM-dd
         if (userData.birthdate) {
