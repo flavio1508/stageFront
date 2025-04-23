@@ -21,7 +21,7 @@ const Nav = ({ name, notifications, openModal }) => {
         if (error.response) {
           if (error.response.status === 401) {
             alert("Você não está autenticado. Redirecionando para o login...");
-            navigate('/login');
+            navigate('/');
           } else {
             console.error("Erro com resposta do servidor:", error.response.data);
           }
