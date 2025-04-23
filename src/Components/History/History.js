@@ -10,7 +10,7 @@ const History = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-    axios.get('http://localhost:5000/api/users/me', { withCredentials: true })
+    axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true })
         .then(response => {
         setUser(response.data);
         })
@@ -18,7 +18,7 @@ const History = () => {
         console.error('Error fetching user:', error);
         });
 
-    axios.get(`http://localhost:5000/api/projects/${projectId}/history`, { withCredentials: true })
+    axios.get(`https://stagebackend.onrender.com/api/projects/${projectId}/history`, { withCredentials: true })
         .then(response => {
             if (Array.isArray(response.data)) {
                 setHistory(response.data);

@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/me');
+        const response = await axios.get('https://stagebackend.onrender.com/api/users/me');
         const userData = response.data;
         // Converter a data de nascimento para o formato yyyy-MM-dd
         if (userData.birthdate) {
@@ -56,7 +56,7 @@ const Profile = () => {
   const handleSave = async () => {
     if (hasChanges) {
       try {
-        await axios.put('http://localhost:5000/api/users/me', user);
+        await axios.put('https://stagebackend.onrender.com/api/users/me', user);
         console.log('Dados do usuário atualizados com sucesso');
         setHasChanges(false);
       } catch (error) {

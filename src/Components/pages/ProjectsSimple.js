@@ -19,11 +19,11 @@ const ProjectsSimple = () => {
 
   useEffect(() => {
     console.log("Fetching user information...");
-    axios.get('http://localhost:5000/api/users/me', {withCredentials: true})
+    axios.get('https://stagebackend.onrender.com/api/users/me', {withCredentials: true})
       .then(response => {
         console.log("User information fetched successfully:", response.data);
         setUser(response.data);
-        return axios.get(`http://localhost:5000/api/projects?email=${response.data.email}`, {withCredentials: true});
+        return axios.get(`https://stagebackend.onrender.com/api/projects?email=${response.data.email}`, {withCredentials: true});
       })
       .then(response => {
         console.log("Projects fetched successfully:", response.data);
@@ -62,7 +62,7 @@ const ProjectsSimple = () => {
     if (newProject.name && newProject.startDate) {
       const newProjectObj = { ...newProject, userEmail: user.email };
       console.log("Saving project object:", newProjectObj);
-      axios.post('http://localhost:5000/api/projects', newProjectObj, {withCredentials: true})
+      axios.post('https://stagebackend.onrender.com/api/projects', newProjectObj, {withCredentials: true})
         .then(response => {
           console.log("Project saved successfully:", response.data);
           // Verificar se o projeto já está na lista antes de adicioná-lo
@@ -82,7 +82,7 @@ const ProjectsSimple = () => {
 
   const handleDeleteProject = (id) => {
     console.log("Deleting project with id:", id);
-    axios.delete(`http://localhost:5000/api/projects/${id}`, {withCredentials: true})
+    axios.delete(`https://stagebackend.onrender.com/api/projects/${id}`, {withCredentials: true})
       .then(() => {
         console.log("Project deleted:", id);
         setProjects(projects.filter((project) => project.id !== id));

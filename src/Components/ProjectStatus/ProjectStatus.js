@@ -19,7 +19,7 @@ const ProjectStatus = () => {
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/projects/${projectId}`)
+    axios.get(`https://stagebackend.onrender.com/api/projects/${projectId}`)
       .then(response => {
         setProject(response.data);
         setStatus(response.data.status || {
@@ -35,7 +35,7 @@ const ProjectStatus = () => {
         console.error('Error fetching project status:', error);
       });
 
-      axios.get('http://localhost:5000/api/users/me', { withCredentials: true })
+      axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true })
       .then(response => {
         setUserRole(response.data.role);
       })
@@ -56,7 +56,7 @@ const ProjectStatus = () => {
     setProgress(updatedProgress);
     console.log('Updated status:', updatedStatus);
     console.log('Updated progress:', updatedProgress);
-    axios.put(`http://localhost:5000/api/projects/${projectId}/status`, {status: updatedStatus})
+    axios.put(`https://stagebackend.onrender.com/api/projects/${projectId}/status`, {status: updatedStatus})
       .then(response => {
         console.log('Status updated successfully:', response.data);
       })

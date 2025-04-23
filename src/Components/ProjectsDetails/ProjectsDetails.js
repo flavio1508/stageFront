@@ -33,7 +33,7 @@ const ProjectDetails = () => {
   const [folderOpenStates, setFolderOpenStates] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users/me', { withCredentials: true })
+    axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true })
       .then(response => {
         setUser(response.data);
       })
@@ -49,7 +49,7 @@ const ProjectDetails = () => {
     }
     console.log("Project ID:", projectId);
 
-    axios.get(`http://localhost:5000/api/projects/${projectId}`, { withCredentials: true })
+    axios.get(`https://stagebackend.onrender.com/api/projects/${projectId}`, { withCredentials: true })
     .then(response => {
       console.log('Project data:',response.data);
       setProject(response.data);
@@ -58,7 +58,7 @@ const ProjectDetails = () => {
       console.error('Error fetching project:', error);
     });
 
-    axios.get(`http://localhost:5000/api/members/${projectId}`, { withCredentials: true })
+    axios.get(`https://stagebackend.onrender.com/api/members/${projectId}`, { withCredentials: true })
     .then(response => {
       setMembers(response.data);
     })
@@ -66,7 +66,7 @@ const ProjectDetails = () => {
       console.error('Error fetching members:', error);
     });
 
-    axios.get(`http://localhost:5000/api/files/folders/${projectId}`)
+    axios.get(`https://stagebackend.onrender.com/api/files/folders/${projectId}`)
     .then(response => {
       console.log('API response for folders:', response.data);
       const foldersWithFiles = response.data.map(folder => ({
@@ -80,7 +80,7 @@ const ProjectDetails = () => {
       }, {}));
       // Carregar arquivos para cada pasta
       foldersWithFiles.forEach((folder, index) => {
-        axios.get(`http://localhost:5000/api/files/${projectId}/${folder.id}`)
+        axios.get(`https://stagebackend.onrender.com/api/files/${projectId}/${folder.id}`)
           .then(fileResponse => {
             setFolders(prevFolders => {
               const updatedFolders = [...prevFolders];
@@ -99,7 +99,7 @@ const ProjectDetails = () => {
     });
 
 
-    axios.get(`http://localhost:5000/api/projectMaterials/${projectId}`, { withCredentials: true })
+    axios.get(`https://stagebackend.onrender.com/api/projectMaterials/${projectId}`, { withCredentials: true })
       .then(response => {
         setProjectMaterials(response.data);
       })
@@ -107,7 +107,7 @@ const ProjectDetails = () => {
         console.error('Error fetching budget items:', error);
       });
 
-    axios.get('http://localhost:5000/api/users', { withCredentials: true })
+    axios.get('https://stagebackend.onrender.com/api/users', { withCredentials: true })
       .then(response => {
         console.log("All users response:", response.data); // <- adicione isto
 
@@ -135,7 +135,7 @@ const ProjectDetails = () => {
        }
       console.log("Selected User:", selectedUser);
       console.log("Request Body", { member: selectedUser.id });
-      axios.post(`http://localhost:5000/api/members/${projectId}`, { member: selectedUser.id })
+      axios.post(`https://stagebackend.onrender.com/api/members/${projectId}`, { member: selectedUser.id })
         .then(response => {
           setMembers([...members, response.data]);
           addNotification(`Member ${selectedUser.name} added to the project.`);
@@ -152,7 +152,7 @@ const ProjectDetails = () => {
       return;
     }
     const memberToRemove = members[index];
-    axios.delete(`http://localhost:5000/api/members/${projectId}/${memberToRemove.id}`)
+    axios.delete(`https://stagebackend.onrender.com/api/members/${projectId}/${memberToRemove.id}`)
       .then(() => {
         setMembers(members.filter((_, i) => i !== index));
         addNotification(`Member ${memberToRemove.name} removed from the project.`);
@@ -191,7 +191,7 @@ const ProjectDetails = () => {
   const handleAddBudgetItem = () => {
     if (editIndex >= 0) {
       const updatedItem = { ...newMaterial, projectId };
-      axios.put(`http://localhost:5000/api/projectMaterials/${projectMaterials[editIndex].id}`, updatedItem)
+      axios.put(`https://stagebackend.onrender.com/api/projectMaterials/${projectMaterials[editIndex].id}`, updatedItem)
         .then(response => {
           const updatedItems = projectMaterials.map((item, index) =>
             index === editIndex ? response.data : item
@@ -205,7 +205,7 @@ const ProjectDetails = () => {
         });
     } else {
       const newItem = { ...newMaterial, projectId };
-      axios.post(`http://localhost:5000/api/projectMaterials`, newItem)
+      axios.post(`https://stagebackend.onrender.com/api/projectMaterials`, newItem)
         .then(response => {
           setProjectMaterials([...projectMaterials, response.data]);
           addNotification(`Budget item ${newMaterial.name} added.`);
@@ -224,7 +224,7 @@ const ProjectDetails = () => {
 
   const handleRemoveBudgetItem = (index) => {
     const itemToRemove = projectMaterials[index];
-    axios.delete(`http://localhost:5000/api/projectMaterials/${itemToRemove.id}`)
+    axios.delete(`https://stagebackend.onrender.com/api/projectMaterials/${itemToRemove.id}`)
       .then(() => {
         setProjectMaterials(projectMaterials.filter((_, i) => i !== index));
         addNotification(`Budget item ${itemToRemove.name} removed.`);
@@ -255,7 +255,7 @@ const ProjectDetails = () => {
   const handleAddFolder = () => {
     const folderName = prompt("Enter folder name:");
     if (folderName) {
-      axios.post(`http://localhost:5000/api/files/folders/${projectId}`, { name: folderName })
+      axios.post(`https://stagebackend.onrender.com/api/files/folders/${projectId}`, { name: folderName })
         .then(response => {
           setFolders(prevFolders => [...prevFolders,{ ...response.data, files: [] }]);
           addNotification(`Folder ${folderName} added to the project.`);
@@ -269,7 +269,7 @@ const ProjectDetails = () => {
 
   const handleRemoveFolder = (folderIndex) => {
     const folderToRemove = folders[folderIndex];
-    axios.delete(`http://localhost:5000/api/files/folders/${projectId}/${folderToRemove.id}`)
+    axios.delete(`https://stagebackend.onrender.com/api/files/folders/${projectId}/${folderToRemove.id}`)
       .then(() => {
         setFolders(folders.filter((_, i) => i !== folderIndex));
         addNotification(`Folder ${folderToRemove.name} removed from the project.`);
@@ -290,7 +290,7 @@ const ProjectDetails = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    axios.post(`http://localhost:5000/api/files/${projectId}/${folders[folderIndex].id}`, formData)
+    axios.post(`https://stagebackend.onrender.com/api/files/${projectId}/${folders[folderIndex].id}`, formData)
       .then(response => {
         console.log("Response:", response.data);
         setFolders(prevFolders => {
@@ -339,7 +339,7 @@ const ProjectDetails = () => {
 
   const handleRemoveFile = (folderIndex, fileIndex) => {
     const fileToRemove = folders[folderIndex].files[fileIndex];
-    axios.delete(`http://localhost:5000/api/files/${projectId}/${folders[folderIndex].id}/${fileToRemove.id}`)
+    axios.delete(`https://stagebackend.onrender.com/api/files/${projectId}/${folders[folderIndex].id}/${fileToRemove.id}`)
       .then(() => {
         const updatedFolders = [...folders];
         updatedFolders[folderIndex].files.splice(fileIndex, 1);
@@ -417,7 +417,7 @@ const ProjectDetails = () => {
                 <ul className="files-list">
                   {Array.isArray(folder.files) && folder.files.map((file, fileIndex) => (
                     <li key={fileIndex} draggable onDragStart={(e) => handleDragStart(e, folderIndex, fileIndex)} className="file-item">
-                      <FaFile className="file-icon"/><a className="filesPastas" href={`http://localhost:5000/api/files/download/${file.id}`} download={file.name} >
+                      <FaFile className="file-icon"/><a className="filesPastas" href={`https://stagebackend.onrender.com/api/files/download/${file.id}`} download={file.name} >
                         {file.name}
                       </a>
                       <FaTrash className="trash" onClick={() => handleRemoveFile(folderIndex, fileIndex)} />

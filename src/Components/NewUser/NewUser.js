@@ -27,7 +27,7 @@ const NewUser = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users');
+        const response = await axios.get('https://stagebackend.onrender.com/api/users');
         console.log("Fetched users:",response.data);
         setUsers(response.data.rows);
       } catch (err) {
@@ -50,7 +50,7 @@ const NewUser = () => {
       isActive: true
     };
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
+      const response = await axios.post('https://stagebackend.onrender.com/api/register', formData);
       if (response.status === 201) {
         console.log("User registered successfully:", response.data);
       } else {
@@ -73,7 +73,7 @@ const NewUser = () => {
     setUsers(updatedUsers);
 
     try {
-      await axios.put(`http://localhost:5000/api/users/${updatedUsers[index].id}`, { isActive: updatedUsers[index].isActive });
+      await axios.put(`https://stagebackend.onrender.com/api/users/${updatedUsers[index].id}`, { isActive: updatedUsers[index].isActive });
       console.log("User status updated successfully");
     } catch (err) {
       console.error("Erro ao atualizar status do usuário:", err);
@@ -104,7 +104,7 @@ const NewUser = () => {
     setIsViewModalOpen(false);
 
     try {
-      const response = await axios.put(`http://localhost:5000/api/user/${selectedUser.id}`, selectedUser);
+      const response = await axios.put(`https://stagebackend.onrender.com/api/user/${selectedUser.id}`, selectedUser);
       if (response.status === 200) {
         console.log("User updated successfully:", response.data);
       } else {
