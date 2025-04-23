@@ -16,7 +16,8 @@ function Login() {
         const response = await axios.post('https://stagebackend.onrender.com/api/users/login', { // Atualize a porta para 5000
           email,
           password   
-        });
+        },  { withCredentials: true } // <- ESSENCIAL
+      );
         console.log('Response:',response);
         if (response.status === 200) {
           navigate(response.data.redirectUrl);
