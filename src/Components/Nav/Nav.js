@@ -16,15 +16,18 @@ const Nav = ({ name, notifications, openModal }) => {
         const response = await axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true });
         setUserRole(response.data.role);
         console.log('User role:', response.data.role);
-      } catch (err) {
-        console.error("Erro ao obter informações do usuário:", err);
-        if (err.response) {
-          console.error("Response data:", err.response.data);
-          console.error("Response status:", err.response.status);
-          console.error("Response headers:", err.response.headers);
+      } catch (error) {
+        console.error('Erro ao buscar informações do usuário:', error);
+        if (error.response) {
+          if (error.response.status === 401) {
+            alert("Você não está autenticado. Redirecionando para o login...");
+            navigate('/login');
+          } else {
+            console.error("Erro com resposta do servidor:", error.response.data);
+          }
+        } else {
+          console.error("Erro sem resposta do servidor:", error.message);
         }
-        // Redirecionar para a página de login se não estiver autenticado
-        navigate("/");
       }
     };
 
