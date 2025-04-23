@@ -13,13 +13,18 @@ function Login() {
   
     const handleLogin = async () => {
       try {
-        const response = await axios.post('https://stagebackend.onrender.com/api/users/login', { // Atualize a porta para 5000
+        const response = await axios.post('https://stagebackend.onrender.com/api/users/login', {
           email,
-          password   
-        },  { withCredentials: true } // <- ESSENCIAL
-      );
-        console.log('Response:',response);
+          password
+        }, { withCredentials: true });
+    
+        console.log('Login response:', response);
+    
         if (response.status === 200) {
+          // 👇 Salvando token
+          localStorage.setItem("token", response.data.token);
+          
+          // 👇 Redirecionando
           navigate(response.data.redirectUrl);
         } else {
           setError(response.data.error);
@@ -29,6 +34,7 @@ function Login() {
         console.error("Fetch error:", err);
       }
     };
+    
 
   
     return (

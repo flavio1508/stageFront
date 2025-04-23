@@ -13,8 +13,14 @@ const Nav = ({ name, notifications, openModal }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get('https://stagebackend.onrender.com/api/users/me', { withCredentials: true });
-        setUserRole(response.data.role);
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get("https://stagebackend.onrender.com/api/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+                setUserRole(response.data.role);
         console.log('User role:', response.data.role);
       } catch (err) {
         console.error("Erro ao obter informações do usuário:", err);
