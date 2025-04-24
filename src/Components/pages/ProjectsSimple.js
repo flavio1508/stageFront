@@ -19,14 +19,8 @@ const ProjectsSimple = () => {
 
   useEffect(() => {
     console.log("Fetching user information...");
-    const token = localStorage.getItem("token"); // ou sessionStorage, ou vindo de contexto, etc
-
-    axios.get('https://stagebackend.onrender.com/api/users/me', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-          .then(response => {
+    axios.get('https://stagebackend.onrender.com/api/users/me', {withCredentials: true})
+      .then(response => {
         console.log("User information fetched successfully:", response.data);
         setUser(response.data);
         return axios.get(`https://stagebackend.onrender.com/api/projects?email=${response.data.email}`, {withCredentials: true});
