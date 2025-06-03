@@ -2,6 +2,10 @@
   "name": "simplenyc-front",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
