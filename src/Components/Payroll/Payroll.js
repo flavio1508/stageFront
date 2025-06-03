@@ -20,7 +20,7 @@ const Payroll = () => {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    axios.get('https://stagebackend.onrender.com/api/payroll')
+    axios.get('https://stagebackend-1.onrender.com/api/payroll')
       .then(response => {
         setSubcontractors(response.data);
       })
@@ -37,7 +37,7 @@ const Payroll = () => {
 
     console.log("newSubcontractor enviado:", newSubcontractor);
   
-    axios.post('https://stagebackend.onrender.com/api/payroll', newSubcontractor)
+    axios.post('https://stagebackend-1.onrender.com/api/payroll', newSubcontractor)
       .then(response => {
         setSubcontractors([...subcontractors, response.data]);
         setIsModalOpen(false);
@@ -49,7 +49,7 @@ const Payroll = () => {
   };
 
   const handleDeleteSubcontractor = (id) => {
-    axios.delete(`https://stagebackend.onrender.com/api/payroll/${id}`)
+    axios.delete(`https://stagebackend-1.onrender.com/api/payroll/${id}`)
     .then(() => {
       setSubcontractors(subcontractors.filter(subcontractor => subcontractor.id !== id));
     })
@@ -73,7 +73,7 @@ const Payroll = () => {
   console.log("Dados enviados para edição:", filteredSubcontractor);
   // Enviar os dados filtrados para o backend
 
-    axios.put(`https://stagebackend.onrender.com/api/payroll/${newSubcontractor.id}`, filteredSubcontractor)
+    axios.put(`https://stagebackend-1.onrender.com/api/payroll/${newSubcontractor.id}`, filteredSubcontractor)
       .then(response => {
         setSubcontractors(subcontractors.map(subcontractor => 
           subcontractor.id === newSubcontractor.id ? response.data : subcontractor
