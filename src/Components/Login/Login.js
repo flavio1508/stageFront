@@ -13,11 +13,11 @@ function Login() {
   
     const handleLogin = async () => {
       try {
-        const response = await axios.post('/api/users/login', {
+        const response = await axios.post('https://stagebackend-1.onrender.com/api/users/login', { // Atualize a porta para 5000
           email,
-          password
-        }, { withCredentials: true });
-        
+          password   
+        },  { withCredentials: true } // <- ESSENCIAL
+      );
         console.log('Response:',response);
         if (response.status === 200) {
           navigate(response.data.redirectUrl);
