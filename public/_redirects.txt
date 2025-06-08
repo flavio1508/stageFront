@@ -1,0 +1,2 @@
+/*    /index.html   200
+/api/*    https://stagebackend-1.onrender.com/api/:splat    200
