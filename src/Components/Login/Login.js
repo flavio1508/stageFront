@@ -33,13 +33,13 @@ function Login() {
       console.log("🔑 Status da resposta:", response.status);
 
       // Verifica se veio token ou cookies
-      // const token = response.data.token;
-      // if (token) {
-      //   console.log("🔐 Token recebido:", token);
-      //   localStorage.setItem("token", token); // Armazena para as próximas requisições
-      // } else {
-      //   console.warn("⚠️ Nenhum token recebido!");
-      // }
+      const token = response.data.token;
+      if (token) {
+        console.log("🔐 Token recebido:", token);
+        localStorage.setItem("token", token); // Armazena para as próximas requisições
+      } else {
+        console.warn("⚠️ Nenhum token recebido!");
+      }
 
       if (response.status === 200 && response.data.redirectUrl) {
         console.log("➡️ Redirecionando para:", response.data.redirectUrl);
