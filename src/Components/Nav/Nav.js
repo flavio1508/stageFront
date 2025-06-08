@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaUser, FaFileAlt, FaClipboardCheck, FaPlus, FaBell, FaSignOutAlt, FaMoneyCheckAlt } from "react-icons/fa";
+import {
+  FaUser, FaFileAlt, FaClipboardCheck, FaPlus,
+  FaBell, FaSignOutAlt, FaMoneyCheckAlt
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,26 +10,37 @@ const Nav = ({ name, notifications, openModal }) => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
 
-  // Garantir que notifications seja um array
   const notificationsCount = Array.isArray(notifications) ? notifications.length : 0;
 
   useEffect(() => {
     const fetchUserRole = async () => {
+      console.log("🔍 Iniciando busca pela role do usuário...");
+
       try {
-        const response = await axios.get('https://stagebackend-1.onrender.com/api/users/me', { withCredentials: true });
+        const response = await axios.get(
+          'https://stagebackend-1.onrender.com/api/users/me',
+          { withCredentials: true }
+        );
+
+        console.log("✅ Resposta recebida de /api/users/me:", response);
+        console.log("👤 Role do usuário:", response.data.role);
         setUserRole(response.data.role);
-        console.log('User role:', response.data.role);
+
       } catch (error) {
-        console.error('Erro ao buscar informações do usuário:', error);
+        console.error("❌ Erro ao buscar informações do usuário:", error);
+
         if (error.response) {
+          console.log("📡 Status de erro:", error.response.status);
+          console.log("📄 Dados do erro:", error.response.data);
+
           if (error.response.status === 401) {
-            alert("Você não está autenticado. Redirecionando para o login...");
+            alert("⚠️ Você não está autenticado. Redirecionando para o login...");
             navigate('/');
-          } else {
-            console.error("Erro com resposta do servidor:", error.response.data);
           }
+        } else if (error.request) {
+          console.error("🚫 Requisição enviada mas sem resposta (erro de rede ou CORS).");
         } else {
-          console.error("Erro sem resposta do servidor:", error.message);
+          console.error("❗ Erro desconhecido:", error.message);
         }
       }
     };
@@ -35,42 +49,46 @@ const Nav = ({ name, notifications, openModal }) => {
   }, [navigate]);
 
   const handleAddUser = () => {
+    console.log("➕ Tentando acessar criação de usuários. Role atual:", userRole);
     if (userRole === "Product Manager") {
       navigate("/newuser");
     } else {
-      alert("Access denied. Only Product Managers can add new users.");
+      alert("⛔ Acesso negado. Apenas Product Managers podem adicionar usuários.");
     }
   };
 
   const projects = () => {
+    console.log("📁 Navegando para Projects");
     navigate("/projects");
   };
 
   const handleprofile = () => {
+    console.log("👤 Navegando para Profile");
     navigate("/profile");
   };
 
   const handlePayroll = () => {
+    console.log("💰 Tentando acessar folha de pagamento. Role atual:", userRole);
     if (userRole === "Product Manager") {
       navigate("/payroll");
     } else {
-      alert("Access denied. Only Product Managers can access the payroll.");
+      alert("⛔ Acesso negado. Apenas Product Managers podem acessar a folha de pagamento.");
     }
   };
 
   const handleHistory = () => {
+    console.log("🕓 Navegando para histórico");
     navigate("/history");
-  }; 
+  };
 
   const handleLogout = () => {
-    document
-      .cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    console.log("🚪 Fazendo logout. Limpando cookie...");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/");
   };
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
       <nav className="sidebar">
         <h1>Simple</h1>
         <ul>
