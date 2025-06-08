@@ -13,11 +13,11 @@ function Login() {
   
     const handleLogin = async () => {
       try {
-        const response = await axios.post(/api/users/login', { // Atualize a porta para 5000
+        const response = await axios.post('/api/users/login', {
           email,
-          password   
-        },  { withCredentials: true } // <- ESSENCIAL
-      );
+          password
+        }, { withCredentials: true });
+        
         console.log('Response:',response);
         if (response.status === 200) {
           navigate(response.data.redirectUrl);
